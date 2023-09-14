@@ -1,0 +1,41 @@
+# 方法一：排序
+
+我们将数组排序，逐个遍历并比较绝对最小差：
+- 与最小绝对差相等，加入答案。
+- 比最小绝对差小，清空答案并更新最小绝对差，然后加入新答案。
+- 比最小绝对差大，直接跳过
+
+**代码如下**
+
+* 
+
+```
+public List<List<Integer>> minimumAbsDifference(int[] arr) {
+    //排序
+    Arrays.sort(arr);
+    int min = Integer.MAX_VALUE;
+    List<List<Integer>> ans = new ArrayList<>();
+    for (int i = 1; i < arr.length; i++) {
+        if (arr[i] - arr[i - 1] < min) {
+            //比最小绝对差小
+            ans.clear();
+            min = arr[i] - arr[i - 1];
+        } else if (arr[i] - arr[i - 1] > min) {
+            //比最小绝对差大
+            continue;
+        }
+        //添加答案
+        List<Integer> list = new ArrayList<>();
+        list.add(arr[i - 1]);
+        list.add(arr[i]);
+        ans.add(list);
+    }
+    return ans;
+}
+```
+
+**复杂度分析**
+时间复杂度：O(nlogn)
+空间复杂度：O(logn)
+如果对您有帮助，**记得关注 + 点赞 + 收藏呦！！！**
+**每天都会更新每日一题题解，大家加油！！！**

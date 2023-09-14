@@ -1,0 +1,52 @@
+在实际工程中，对于时间的处理，我们应优先使用 Java 8 Date/Time API（而非 `java.util.Date` 或 `java.util.Calendar`）。
+
+**Java 8 Date/Time API**
+
+* []
+
+```java
+import java.time.LocalDate;
+
+class Solution {
+    public int dayOfYear(String date) {
+        return LocalDate.parse(date).getDayOfYear();
+    }
+}
+```
+
+**java.util.Calendar**
+
+* []
+
+```java
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+class Solution {
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
+    public int dayOfYear(String date) {
+        Calendar calendar = Calendar.getInstance();
+        try {
+            calendar.setTime(DATE_FORMAT.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return calendar.get(Calendar.DAY_OF_YEAR);
+    }
+}
+```
+
+**复杂度分析**
+
+- 时间复杂度：库函数不讨论时间复杂度。
+- 空间复杂度：库函数不讨论空间复杂度。
+
+**相似题目**
+
+- [1118. 一月有多少天](https://leetcode-cn.com/problems/number-of-days-in-a-month/solution/java-8-datetime-api-by-zhang-yi-yang-f9qx/)
+- [1154. 一年中的第几天](https://leetcode-cn.com/problems/day-of-the-year/solution/java-8-datetime-api-by-zhang-yi-yang-9fn7/)
+- [1185. 一周中的第几天](https://leetcode-cn.com/problems/day-of-the-week/solution/java-8-datetime-api-by-zhang-yi-yang-vfzp/)
+

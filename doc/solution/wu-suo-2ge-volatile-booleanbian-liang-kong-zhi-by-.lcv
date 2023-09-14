@@ -1,0 +1,63 @@
+### 解题思路
+
+这道题，为什么那么多人要用锁来解决，好多人在用synchronized、ReentrantLock等，但真的没必要啊。**首先，这道题是要解决线程按序打印问题。我们可以确定的是只有3个线程，3个方法，以及方法执行的先后次序；而不确定的是哪个线程会先执行（这是并发问题）。**
+
+那问题就很简单了，加2道屏障就行了，也就是用2个布尔值控制，官方不就是这个思路吗？下面这一段引用官方的解析：
+
+> 依赖关系可以通过并发机制实现。使用一个共享变量 firstJobDone 协调第一个方法与第二个方法的执行顺序，使用另一个共享变量 secondJobDone 协调第二个方法与第三个方法的执行顺序。
+> <br>算法
+
+- 首先初始化共享变量 firstJobDone 和 secondJobDone，初始值表示所有方法未执行。
+
+- 方法 first() 没有依赖关系，可以直接执行。在方法最后更新变量 firstJobDone 表示该方法执行完成。
+
+- 方法 second() 中，检查 firstJobDone 的状态。如果未更新则进入等待状态，否则执行方法 second()。在方法末尾，更新变量 secondJobDone 表示方法 second() 执行完成。
+
+- 方法 third() 中，检查 secondJobDone 的状态。与方法 second() 类似，执行 third() 之前，需要先等待 secondJobDone 的状态。
+
+官方使用的CAS乐观锁来实现的，我的方法是只需要定义2个volatile的布尔类型的变量，其他思路类似。
+
+### 代码
+
+* java
+
+```java
+class Foo {
+
+   private volatile boolean firstJobDone = false;
+   private volatile boolean secondJobDone = false;
+
+    public Foo() {
+        
+    }
+
+    public void first(Runnable printFirst) throws InterruptedException {
+        
+        // printFirst.run() outputs "first". Do not change or remove this line.
+        printFirst.run();
+        firstJobDone=true;
+    }
+
+    public void second(Runnable printSecond) throws InterruptedException {
+        
+         while (!firstJobDone){
+            //等待printFirst完成
+        }
+        
+        // printSecond.run() outputs "second". Do not change or remove this line.
+        printSecond.run();
+        
+        secondJobDone=true;
+    }
+
+    public void third(Runnable printThird) throws InterruptedException {
+        while (!secondJobDone){
+            //等待printSecond完成
+        }
+        
+        // printThird.run() outputs "third". Do not change or remove this line.
+        printThird.run();
+    }
+}
+```
+

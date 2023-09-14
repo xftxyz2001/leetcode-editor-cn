@@ -1,0 +1,25 @@
+### 解题思路
+
+利用 calendar 包内的 weekday 函数返回该日期为本周的第几天
+创建字典用来转换函数返回值对应的星期几
+
+### 代码
+
+* python3
+
+```python
+class Solution:
+    def dayOfTheWeek(self, day: int, month: int, year: int) -> str:
+        from calendar import weekday
+        d = {
+            "0": "Monday", 
+            "1": "Tuesday", 
+            "2": "Wednesday", 
+            "3": "Thursday", 
+            "4": "Friday", 
+            "5": "Saturday", 
+            "6": "Sunday"
+        }
+        return d.get(str(weekday(year, month, day)))
+```
+

@@ -1,0 +1,19 @@
+利用强大的正则，7行代码，
+还有个好处是不光两个字符，若干个字符（重复字符）也可以，改下正则式就可以了
+
+* java
+
+```java
+class Solution {
+    public String removeDuplicates(String S) {
+        int len = -1;
+        while(len != S.length()){
+            len = S.length();
+            String[] a = S.split("(.)\\1{1}");// 按相同的两个字符分割
+            S = String.join("", a);
+        }
+        return S;
+    }
+}
+```
+
