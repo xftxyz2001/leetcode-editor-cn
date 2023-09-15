@@ -1,0 +1,152 @@
+# 解法一
+
+## 思路和算法
+
+由于给定的正整数 $n$ 一定可以表示成两个无零整数之和，因此可以遍历和为 $n$ 的每一对正整数，判断两个正整数是否为无零整数。
+
+具体做法是，用 $\textit{num}_1$ 和 $\textit{num}_2$ 分别表示和为 $n$ 的两个正整数，初始时 $\textit{num}_1 = 1$，$\textit{num}_2 = n - 1$。每次判断 $\textit{num}_1$ 和 $\textit{num}_2$ 是否为无零整数，如果 $\textit{num}_1$ 和 $\textit{num}_2$ 都是无零整数则返回 $[\textit{num}_1, \textit{num}_2]$，否则将 $\textit{num}_1$ 加 $1$、$\textit{num}_2$ 减 $1$，继续寻找和为 $n$ 的两个无零整数。
+
+## 代码
+
+* [sol1-Java]
+
+```Java
+class Solution {
+    public int[] getNoZeroIntegers(int n) {
+        int num1 = 1, num2 = n - 1;
+        boolean flag = false;
+        while (num1 <= num2 && !flag) {
+            if (noZero(num1) && noZero(num2)) {
+                flag = true;
+            } else {
+                num1++;
+                num2--;
+            }
+        }
+        return new int[]{num1, num2};
+    }
+
+    public boolean noZero(int num) {
+        while (num > 0) {
+            int remainder = num % 10;
+            if (remainder == 0) {
+                return false;
+            }
+            num /= 10;
+        }
+        return true;
+    }
+}
+```
+
+* [sol1-C#]
+
+```C#
+public class Solution {
+    public int[] GetNoZeroIntegers(int n) {
+        int num1 = 1, num2 = n - 1;
+        bool flag = false;
+        while (num1 <= num2 && !flag) {
+            if (NoZero(num1) && NoZero(num2)) {
+                flag = true;
+            } else {
+                num1++;
+                num2--;
+            }
+        }
+        return new int[]{num1, num2};
+    }
+
+    public bool NoZero(int num) {
+        while (num > 0) {
+            int remainder = num % 10;
+            if (remainder == 0) {
+                return false;
+            }
+            num /= 10;
+        }
+        return true;
+    }
+}
+```
+
+## 复杂度分析
+
+- 时间复杂度：$O(n \log_{10} n)$，其中 $n$ 是给定的正整数。最多需要遍历 $\dfrac{n}{2}$ 对正整数，对于每对正整数需要遍历正整数的每一位。
+
+- 空间复杂度：$O(1)$。
+
+# 解法二
+
+## 思路和算法
+
+解法一遍历和为 $n$ 的每一对正整数，也可以遍历 $n$ 的每一位，构造两个无零整数。
+
+用 $\textit{num}_1$ 和 $\textit{num}_2$ 分别表示和为 $n$ 的两个无零整数，初始时 $\textit{num}_1 = \textit{num}_2 = 0$。从低到高遍历 $n$ 的每一位，将 $n$ 的当前位记为 $\textit{sum}$，表示 $\textit{num}_1$ 和 $\textit{num}_2$ 的该位之和。为了确保 $\textit{num}_1$ 和 $\textit{num}_2$ 是无零整数，需要执行如下操作。
+
+1. 如果 $\textit{sum} = 0$，则将 $\textit{sum}$ 加 $10$；如果 $\textit{sum} = 1$ 且当前位不是 $n$ 的最高位，则将 $\textit{sum}$ 加 $10$。
+
+2. 令 $\textit{digit}_1 = \Big\lfloor \dfrac{\textit{sum}}{2} \Big\rfloor$，$\textit{digit}_2 = \textit{sum} - \textit{digit}_1$，则 $\textit{digit}_1 + \textit{digit}_2 = \textit{sum}$。当 $\textit{sum} > 1$ 时，$\textit{digit}_1$ 和 $\textit{digit}_2$ 都是大于 $0$ 的一位数，因此不会产生等于 $0$ 的位；当 $\textit{sum} = 1$ 时，$\textit{digit}_1 = 0$，$\textit{digit}_2 = 1$，由于当前位是 $n$ 的最高位，因此不会产生等于 $0$ 的位。
+
+3. 将 $\textit{digit}_1$ 和 $\textit{digit}_2$ 分别加到 $\textit{num}_1$ 和 $\textit{num}_2$ 的当前位。
+
+4. 将 $n$ 的当前位减去 $\textit{sum}$，如果 $\textit{sum} \ge 10$ 则需要将 $n$ 的更高一位减 $1$（退位减法）。
+
+重复上述操作直到 $n$ 变为 $0$，此时 $\textit{num}_1$ 和 $\textit{num}_2$ 是和为 $n$ 的两个无零整数，返回 $[\textit{num}_1, \textit{num}_2]$。
+
+## 代码
+
+* [sol2-Java]
+
+```Java
+class Solution {
+    public int[] getNoZeroIntegers(int n) {
+        int num1 = 0, num2 = 0;
+        int unit = 1;
+        while (n > 0) {
+            int sum = n % 10;
+            if (sum == 0 || sum == 1 && n > 10) {
+                sum += 10;
+            }
+            int digit1 = sum / 2;
+            int digit2 = sum - digit1;
+            num1 += digit1 * unit;
+            num2 += digit2 * unit;
+            n = (n - sum) / 10;
+            unit *= 10;
+        }
+        return new int[]{num1, num2};
+    }
+}
+```
+
+* [sol2-C#]
+
+```C#
+public class Solution {
+    public int[] GetNoZeroIntegers(int n) {
+        int num1 = 0, num2 = 0;
+        int unit = 1;
+        while (n > 0) {
+            int sum = n % 10;
+            if (sum == 0 || sum == 1 && n > 10) {
+                sum += 10;
+            }
+            int digit1 = sum / 2;
+            int digit2 = sum - digit1;
+            num1 += digit1 * unit;
+            num2 += digit2 * unit;
+            n = (n - sum) / 10;
+            unit *= 10;
+        }
+        return new int[]{num1, num2};
+    }
+}
+```
+
+## 复杂度分析
+
+- 时间复杂度：$O(\log_{10} n)$，其中 $n$ 是给定的正整数。需要遍历 $n$ 的每一位。
+
+- 空间复杂度：$O(1)$。
+

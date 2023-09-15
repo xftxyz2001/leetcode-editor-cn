@@ -1,0 +1,29 @@
+### 解题思路
+
+定义一个变量记录R与L出现的次数，再定义一个变量记录RL对的总数;
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public int balancedStringSplit(String s) {
+           char[] chars = s.toCharArray();
+        int max = 0;
+        int RL = 0;
+        for (int i = 0; i < chars.length; i++) {
+            if(chars[i] == 'R'){ //如果i索引上的值等于R则++,如果不等于R则一定等于L,则--
+                RL++;        //不论是第一位是R或者L,此时RL一定不等于0
+            } else {         //如果i索引上的一直是R或者L,则RL只会大于或小于0，只有RL出现的次数一样多时变量RL才能等于0
+                RL--;      
+            }
+            if(RL == 0){ //如果RL==0则说明最少遍历到了了一对RL则可以让max++;
+                max++;
+            }
+        }
+        return max;
+    }
+}
+```
+

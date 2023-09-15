@@ -1,0 +1,27 @@
+> Problem: [1217. 玩筹码](https://leetcode.cn/problems/minimum-cost-to-move-chips-to-the-same-position/description/)
+
+[TOC]
+
+# 解题方法
+
+> 这道题看似复杂，但我们如果理解了题意，会发现可以简化很多。
+> 因为位移两个位置消耗为0，所以我们只需要关注位移奇数个位置的数，实质上就是从偶数位置位移到奇数位置，或是从奇数位置移到偶数位置，因此处于奇数位置的数和处于偶数位置的数的较小值就是答案。
+
+# Code
+
+* []
+
+```Java
+
+class Solution {
+    public int minCostToMoveChips(int[] position) {
+        int odd=0,even=0;//分别记录奇数位置的个数和偶数位置的个数
+        for(int i=0;i<position.length;i++){
+            if(position[i]%2==0) even++;
+            else odd++;
+        }
+        return Math.min(odd,even);//返回较小值
+    }
+}
+```
+
