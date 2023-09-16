@@ -1,0 +1,23 @@
+### 解题思路
+
+反正就是for循环，没啥技术含量
+
+### 代码
+
+* kotlin
+
+```kotlin
+class Solution {
+    fun sortSentence(s: String): String {
+     val sts = StringBuilder()
+        s.split(" ").sortedBy {
+            it[it.length - 1]
+        }.forEach {
+            sts.append(it.substring(0, it.length -1))
+            sts.append(" ")
+        }
+        return sts.toString().trim()
+    }
+}
+```
+

@@ -1,0 +1,43 @@
+> Problem: [1859. 将句子排序](https://leetcode.cn/problems/sorting-the-sentence/description/)
+
+[TOC]
+
+# 思路
+
+> 讲述看到这一题的思路
+
+# 解题方法
+
+> 描述你的解题方法
+
+# 复杂度
+
+- 时间复杂度:
+
+> 添加时间复杂度, 示例： $O(n)$
+
+- 空间复杂度:
+
+> 添加空间复杂度, 示例： $O(n)$
+
+# Code
+
+* []
+
+```Java
+
+import java.util.StringJoiner;
+class Solution {
+    public String sortSentence(String s) {
+ String[] splits = s.split(" ");
+        Arrays.sort(splits, Comparator.comparingInt(a -> Integer.parseInt(String.valueOf(a.charAt(a.length() - 1)))));
+        StringJoiner sj = new StringJoiner(" ");
+        for (String split : splits) {
+            split = split.substring(0, split.length() - 1);
+            sj.add(split);
+        }
+        return sj.toString();
+    }
+}
+```
+

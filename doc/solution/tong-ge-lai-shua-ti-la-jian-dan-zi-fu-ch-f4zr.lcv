@@ -1,0 +1,48 @@
+做通俗易懂的题解，大家好，我是彤、，今天是我坚持写题解的第 154 天！
+
+![](https://pic.leetcode-cn.com/1641349923-vfJOsv-file_1641349922763)
+
+# 方法、模拟
+
+今天这道题比较简单，我们只需要遍历所有的字符，遇到 ? ，从 26 个字母中取一个与其左右字符都不同的字母填充进去即可，注意边界的处理。
+
+请看代码：
+
+* java
+
+```java
+class Solution {
+    public String modifyString(String s) {
+        char[] arr = s.toCharArray();
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == '?') {
+                // 从 'a' 开始遍历直到找到一个符合条件的字符
+                for (int j = 0; j < 26; j++) {
+                    char c = (char) ('a' + j);
+                    // 不等于左右字符，注意边界的处理
+                    if ((i == 0 || c != arr[i - 1]) && (i == arr.length - 1 || c != arr[i + 1])) {
+                        arr[i] = c;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return new String(arr);
+    }
+}
+```
+
+- 时间复杂度：$O(n)$。
+- 空间复杂度：$O(n)$，Java中 `s.toCharArray()` 会拷贝一个新数组。
+
+运行结果如下：
+
+![image-20220105103045880](https://pic.leetcode-cn.com/1641349923-NOXXqy-file_1641349922692)
+
+# 最后
+
+**如果对你有帮助，请点个赞吧，谢谢^^**
+
+彤、，工作快十年的后端开发，在团队中担任架构师的职责，目前在做《算法140讲》专栏，覆盖几乎所有刷题场景，同时会手写 150+ 道题的代码，教授如何写出优雅的代码，有兴趣的可以[关注我](https://img.oicoding.cn/img/20211226095624.png)（公号：彤哥来刷题啦），查看课程大纲。

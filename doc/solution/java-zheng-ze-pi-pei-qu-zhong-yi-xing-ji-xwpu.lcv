@@ -1,0 +1,14 @@
+**Hard我唯唯诺诺，Easy我重拳出击**
+
+使用split()将小写字母作为分隔符提取数字（有可能有空项），然后转入Stream，再使用filter()过滤空项，进行map映射以去除数字前导0，使用distinct()去重，最后用count()统计个数输出。
+
+* 
+
+```
+class Solution {
+    public int numDifferentIntegers(String word) {
+        return (int) Arrays.stream(word.split("[a-z]+")).filter(str -> !str.isEmpty()).map(str -> str.replaceAll("\\b0+", "")).distinct().count();
+    }
+}
+```
+

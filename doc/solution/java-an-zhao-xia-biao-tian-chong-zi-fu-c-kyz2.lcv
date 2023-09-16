@@ -1,0 +1,27 @@
+### 解题思路
+
+使用一个字符串数组将对应下标的字符串填充进去
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public String sortSentence(String s) {
+        String[] arr1 = s.split(" ");//[is2,sentence4,This1,a3]
+        StringBuilder sb = new StringBuilder();
+        String[] arr2 = new String[arr1.length];//[null,null,null,null] [0,3]
+        for (String str : arr1) {
+            int n = str.length() - 1;
+            int idx = Integer.parseInt(str.substring(n)) - 1;//下标=数字-1
+            arr2[idx] = str.substring(0, n);
+        }
+        for (String str : arr2) {
+            sb.append(str).append(" ");
+        }
+        return sb.deleteCharAt(sb.length() - 1).toString();
+    }
+}
+```
+
