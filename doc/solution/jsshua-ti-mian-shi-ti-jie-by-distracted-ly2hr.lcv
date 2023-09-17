@@ -1,0 +1,10 @@
+* 
+
+```
+var maximum = function(a, b) {          
+    return ((Math.abs(a-b) + a + b)/2);
+};
+
+```
+
+[刷题视频](https://xiaochen1024.com/series/6196129fc1553b002e57bef5)

@@ -1,0 +1,45 @@
+**思路：通过比较 a 和 b 以及 a-b 的符号来判断 a 和 b 的大小**
+*返回a的情况：*
+- **a 和 b 符号相同且 a-b >= 0**
+- **a 和 b 符号不相同且 a > 0**
+*返回b的情况：* **不是a那就只能返回b了**
+
+* 
+
+```
+class Solution {
+    // n输入为 0或1 
+    // 输出一定为 0 -> 1 或 1 -> 0
+    public static int filp(int n){
+        return n ^ 1;
+    }
+
+    // n是非负数, 返回1
+    // n是负数， 返回0
+    public static int sign(int n){
+        // 相当于判断n的符号位
+        return filp( (n >> 31) & 1 );
+    }
+
+    // 这种写法可以防止溢出
+    public int maximum(int a, int b) {
+        int c = a - b;
+        // 依次取出a，b，c的符号位
+        int sa = sign(a);
+        int sb = sign(b);
+        int sc = sign(c);
+        // 判断a和b符号是否相同, 不相同则记录为1
+        int disSab = sa ^ sb;
+        // 相同则记录为1， 与disSab互斥
+        int sameSab = filp(disSab);
+        // 返回A的情况有两种：
+        // 第一种：ab符号相同且a-b大于0（即sameSab = 1 && sc = 1）
+        // 第二种：ab符号不相同且a大于0（即disSab = 1 && sa = 1）
+        // 注意这两种情况是互斥的（只会出现1+0或者0+1或者0+0）
+        int returnA = disSab * sa + sameSab * sc;
+        int returnB = filp(returnA);
+        return a * returnA + b * returnB;
+    }
+}
+```
+
