@@ -54,10 +54,40 @@
 // Related Topics 数组 哈希表 字符串 👍 249 👎 0
 
 
+import java.util.HashSet;
+
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int numUniqueEmails(String[] emails) {
+        HashSet<String> set = new HashSet<>();
+        for (String email : emails) {
+            set.add(to(email));
+        }
+        System.out.println(set);
+        return set.size();
+    }
 
+    private String to(String email) {
+        // int indexOfAt = email.indexOf('@');
+        // int indexOfPlus = email.indexOf('+');
+        // if (indexOfPlus > indexOfAt) {
+        //     indexOfPlus = -1;
+        // }
+        // String name = email.substring(0, indexOfPlus > 0 ? indexOfPlus : indexOfAt);
+        // name = name.replace(".","");
+        boolean flag = true;
+        StringBuilder sb = new StringBuilder();
+        int indexOfAt = 0;
+        char ch;
+        while ((ch = email.charAt(indexOfAt)) != '@') {
+            if (ch == '+') {
+                flag = false;
+            } else if (flag && ch != '.') {
+                sb.append(ch);
+            }
+            indexOfAt++;
+        }
+        return sb.toString() + email.substring(indexOfAt);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
