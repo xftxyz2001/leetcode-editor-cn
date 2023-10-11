@@ -34,7 +34,21 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public void duplicateZeros(int[] arr) {
-
+        int[] newArr = new int[arr.length];
+        int indexOfArr = 0;
+        int indexOfNewArr = 0;
+        while (indexOfNewArr < newArr.length) {
+            if (arr[indexOfArr] != 0) {
+                newArr[indexOfNewArr++] = arr[indexOfArr];
+            } else {
+                newArr[indexOfNewArr++] = 0;
+                if (indexOfNewArr < newArr.length) {
+                    newArr[indexOfNewArr++] = 0;
+                }
+            }
+            indexOfArr++;
+        }
+        System.arraycopy(newArr, 0, arr, 0, arr.length);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

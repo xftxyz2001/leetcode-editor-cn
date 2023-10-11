@@ -38,10 +38,40 @@
 // Related Topics 数组 哈希表 双指针 二分查找 排序 👍 1010 👎 0
 
 
+import java.util.ArrayList;
+
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
-
+        int[] hash1 = new int[1001];
+        int[] hash2 = new int[1001];
+        for (int i = 0; i < nums1.length; i++) {
+            hash1[nums1[i]]++;
+        }
+        for (int i = 0; i < nums2.length; i++) {
+            hash2[nums2[i]]++;
+        }
+        ArrayList<Integer> lst = new ArrayList<>();
+        for (int i = 0; i < hash1.length; i++) {
+            // if (hash1[i] == 0) {
+            //     continue;
+            // }
+            // if (hash1[i] == hash2[i]) {
+            //     // lst.add(i);
+            //     for (int j = 0; j < hash1[i]; j++) {
+            //         lst.add(i);
+            //     }
+            // }
+            int min = Math.min(hash1[i], hash2[i]);
+            for (int j = 0; j < min; j++) {
+                lst.add(i);
+            }
+        }
+        int[] ans = new int[lst.size()];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = lst.get(i);
+        }
+        return ans;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
