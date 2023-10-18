@@ -41,19 +41,41 @@
 // Related Topics 数组 数学 随机化 👍 347 👎 0
 
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
+
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
-    public Solution(int[] nums) {
+    int[] o;
+    Random r;
 
+    public Solution(int[] nums) {
+        o = nums;
+        r = new Random();
     }
     
     public int[] reset() {
-
+        return o;
     }
     
     public int[] shuffle() {
+        int[] ints = Arrays.copyOf(o, o.length);
+        // 打乱
+        for (int i = 0; i < ints.length; i++) {
+            swap(ints, i, r.nextInt(ints.length));
+        }
+        return ints;
+    }
 
+    private void swap(int[] ints, int i, int j) {
+        // ints[i] ^= ints[j];
+        // ints[j] ^= ints[i];
+        // ints[i] ^= ints[j];
+        int temp = ints[i];
+        ints[i] = ints[j];
+        ints[j] = temp;
     }
 }
 

@@ -37,6 +37,22 @@ import java.util.List;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> list = new ArrayList<>();
+        list.add(List.of(1));
+        for (int i = 1; i < numRows; i++) {
+            List<Integer> lastRow = list.get(i - 1);
+            ArrayList<Integer> newRow = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                System.out.println("i = " + i + " ,j = " + j);
+                if (j == 0 || j == i) {
+                    newRow.add(1);
+                } else {
+                    newRow.add(lastRow.get(j - 1) + lastRow.get(j));
+                }
+            }
+            list.add(newRow);
+        }
+        return list;
 
     }
 }
