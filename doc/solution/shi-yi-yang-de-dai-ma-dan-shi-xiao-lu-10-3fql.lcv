@@ -1,0 +1,89 @@
+> Problem: [2843. 统计对称整数的数目](https://leetcode.cn/problems/count-symmetric-integers/description/)
+
+[TOC]
+
+# 思路
+
+我们首先算1到n中符合要求的数的个数
+这个可以分4类讨论
+当n<11 返回0
+当n<99 假如第一位大于第二位，则返回第一位减一，否则返回它的第一位数
+当n<1001 返回9
+
+当n<10000 这个是最烦的
+首先分为前后两半部分left和right
+小于它的数里，左半部分templeft可以取到10-left
+右半部分当templeft==left时，tempright可以取00-right；当templeft<left时，tempright可以取00-99
+因此要将第一次分出来单独计算，具体怎么算看firstGet和get函数（太烦了，不想写）
+最后结果还要加9，因为100以下有9个符合的数
+
+上面整套流程我们称count
+
+我们要算题目的结果，只需要返回count(high)-count(low-1)即可
+
+# 复杂度
+
+时间复杂度:
+$O(1)$ n<1001
+$O(n/100)$ n>=1001
+
+空间复杂度:
+$O(1)$
+
+# Code
+
+* []
+
+```C++
+class Solution {
+public:
+    int firstGet(int a,int b){
+        int aadd = a/10+a%10;
+        int g = 0;
+        if(aadd<10){g=aadd;}
+        else{g=9+10*(aadd-9);}
+        int rt = 0;
+        while (g <= b) {
+            ++rt;
+            if (g % 10 == 0) { break; }
+            g += 9;
+        }
+        return rt;
+    }
+    int get(int inp){
+        if(inp<10){return inp+1;}
+        return 19-inp;
+    }
+    int count(int inp){
+        if(inp<99){
+            if(inp<11){return 0;}
+            else{
+                int temp = inp%10;
+                int plus = inp/10;
+                return plus-(plus>temp);
+            }
+        }
+        else{
+            if(inp<1001){
+                return 9;
+            }
+            else{
+                if(inp==10000){--inp;}
+                int left = inp/100;
+                int right = inp%100;
+                int rt = firstGet(left,right);
+                for(int i = left-1;i>=10;--i){
+                    int addup = i/10+i%10;
+                    rt+=get(addup);
+                }
+                return rt+9;
+            }
+        }
+        return -1;
+    }
+    int countSymmetricIntegers(int low, int high) {
+        return count(high)-count(low-1);
+    }
+};
+```
+
