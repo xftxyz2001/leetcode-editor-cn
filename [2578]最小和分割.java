@@ -49,10 +49,26 @@
 // Related Topics 贪心 数学 排序 👍 38 👎 0
 
 
+import java.util.ArrayList;
+
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int splitNum(int num) {
-
+        ArrayList<Integer> list = new ArrayList<>();
+        while (num > 0) {
+            list.add(num % 10);
+            num /= 10;
+        }
+        list.sort((a, b) -> a - b);
+        int sum1 = 0, sum2 = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (i % 2 == 0) {
+                sum1 = sum1 * 10 + list.get(i);
+            } else {
+                sum2 = sum2 * 10 + list.get(i);
+            }
+        }
+        return sum1 + sum2;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

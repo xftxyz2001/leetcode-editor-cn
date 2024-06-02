@@ -33,7 +33,22 @@ import java.util.Stack;
 
 class Solution {
     public String removeDuplicates(String s) {
-
+        Stack<Character> stack = new Stack<>();
+        for (char ch : s.toCharArray()) {
+            boolean hasSame = false;
+            while (!stack.isEmpty() && stack.peek() == ch) {
+                stack.pop();
+                hasSame = true;
+            }
+            if (!hasSame) {
+                stack.push(ch);
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (char ch : stack) {
+            sb.append(ch);
+        }
+        return sb.toString();
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

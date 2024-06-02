@@ -1,0 +1,31 @@
+![image.png](https://pic.leetcode.cn/1682841903-HTKtOr-image.png)
+
+# 解题思路
+
+在周赛的时候理解的是只要前两个有个10然后后面的数字都要进行翻倍，然后当时一直在Debug但是一直错，最后才理解过来原来是只要发现有一个10后面两个数字进行翻倍就好了。
+
+# 代码实现
+
+* 
+
+```
+class Solution {
+public:
+    int isWinner(vector<int>& player1, vector<int>& player2) {
+        int n = player1.size();
+        bool mark1 = false, mark2 = false;
+        int count1 = 0, count2 = 0, sum1 = 0, sum2 = 0;
+        for (int i = 0; i < n; ++i) {
+            if (count1 == 0) sum1 += player1[i];
+            else sum1 += player1[i] * 2, --count1;
+            if (count2 == 0) sum2 += player2[i];
+            else sum2 += player2[i] * 2, --count2;
+            if (player1[i] == 10) count1 = 2;
+            if (player2[i] == 10) count2 = 2;
+        } 
+        if (sum1 == sum2) return 0;
+        return sum1 - sum2 > 0 ? 1 : 2;
+    }
+};
+```
+

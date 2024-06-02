@@ -1,0 +1,57 @@
+> Problem: [2614. 对角线上的质数](https://leetcode.cn/problems/prime-in-diagonal/description/)
+
+[TOC]
+
+# 思路
+
+对对角线上所有数判断素数并选出最大那个即可
+
+判断素数只需要除2到sqrt(n)的数，全部除不尽即可，优化的话可以先把所有偶数先判断掉，减少一半计算量
+
+由于纯检测对角线上是数的话最差时间复杂度是n*max^0.5，这个相比排序的nlogn要大不少，因此可以先排序再判断素数可以剪一点枝，减少一点计算量（理论上）
+
+要注意1不是素数，检查到的话直接排除即可，不要加入排序增加无意义的计算
+
+# 复杂度
+
+时间复杂度:
+O(nlogn+n*max^0.5)
+
+空间复杂度:
+$O(n)$
+
+# Code
+
+* []
+
+```C++
+class Solution {
+public:
+    int diagonalPrime(vector<vector<int>>& nums) {
+        vector<int> dList;
+        dList.reserve(nums.size()*2);
+        for(int i=0;i<nums.size();++i){
+            if(nums[i][i]!=1){
+                dList.emplace_back(nums[i][i]);
+            }
+            if(nums[i][nums.size()-1-i]!=1){
+                dList.emplace_back(nums[i][nums.size()-1-i]);
+            }
+        }
+        sort(dList.begin(),dList.end());
+        for(int i=dList.size()-1;i>=0;--i){
+            if(dList[i]==2){return 2;}
+            if((dList[i]&1)==0){continue;}
+            for(int j=3;j<=sqrt(dList[i]);j+=2){
+                if(dList[i]%j==0){
+                    goto end;
+                }
+            }
+            return dList[i];
+            end:
+        }
+        return 0;
+    }
+};
+```
+

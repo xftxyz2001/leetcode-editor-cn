@@ -1,0 +1,40 @@
+### 解题思路
+
+目标很简单，就是对角线元素当中选出最大的素数，没有返回0
+
+### 代码
+
+* cpp
+
+```cpp
+class Solution {
+public:
+    int prime(int x) //判断素数
+    {
+        if(x>=2)  // 不加这个的话那1就出错了
+        {
+            for(int i=2;i<=sqrt(x);i++)
+            if(x%i==0)
+            return 0;
+        }
+        else return 0;
+        return 1;
+    }
+
+    int diagonalPrime(vector<vector<int>>& nums) {
+        int l=nums.size();
+        int max=0;//定义最大值素数 没有就是0
+        for(int i=0;i<l;i++)
+        {
+            if(prime(nums[i][i]))  //主对角线
+                if(nums[i][i]>max)
+                    max=nums[i][i];
+            if(prime(nums[i][l-1-i])) //副对角线
+                if(nums[i][l-1-i]>max)
+                    max=nums[i][l-1-i];
+        }
+        return max;
+    }
+};
+```
+
