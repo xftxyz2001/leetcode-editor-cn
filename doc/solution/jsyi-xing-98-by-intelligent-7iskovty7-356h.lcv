@@ -1,0 +1,10 @@
+> Problem: [1716. 计算力扣银行的钱](https://leetcode.cn/problems/calculate-money-in-leetcode-bank/description/)
+
+# Code
+
+* []
+
+```JavaScript
+return 28 * Math.floor(n / 7) + ((1 + (Math.floor(n / 7) - 1)) * (Math.floor(n / 7) - 1) / 2) * 7 + ((1 + (n % 7)) * (n % 7) / 2) + (n % 7) * Math.floor(n / 7);
+```
+
